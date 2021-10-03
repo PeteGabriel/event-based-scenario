@@ -1,0 +1,27 @@
+version: "3"
+services:
+  publisher-service-1:
+    image: node:lts-stretch
+    container_name: publisher_service_1_app
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    volumes:
+      - ./publisher_service_1:/publisher_svc_1
+    working_dir: /publisher_svc_1
+    command: >
+      sh -c "npm install && npm start"
+    depends_on:
+      - rabbitmq
+  consumer-service-2:
+    build:
+      context: .
+      dockerfile: ./consumer_service_2/Dockerfile
+    container_name: consumer_service_2_app
+  rabbitmq:
+    container_name: message_queue
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: always
