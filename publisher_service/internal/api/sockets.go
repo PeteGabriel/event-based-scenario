@@ -1,10 +1,10 @@
 package api
 
 import (
-	"fmt"
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
+	"petegabriel/publisher/pkg/data/publisher"
 )
 
 
@@ -26,7 +26,7 @@ func (a App) HandleSocketClient() http.HandlerFunc {
 			log.Print("Error during connection upgrade:", err)
 			return
 		}
-		fmt.Println("connected")
+
 		defer conn.Close()
 
 		// The event loop
@@ -37,6 +37,17 @@ func (a App) HandleSocketClient() http.HandlerFunc {
 				break
 			}
 			log.Printf("Received: %s", message)
+
+
+			//TODO not like this
+			p, err := publisher.New(a.settings)
+			if err != nil {
+				log.Println(err)
+			}
+
+			if err = p.Publish("Once upon a time in the west"); err != nil {
+				log.Println(err)
+			}
 		}
 	}
 }

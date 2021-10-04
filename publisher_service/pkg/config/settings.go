@@ -12,6 +12,8 @@ type Settings struct {
 	Port string `mapstructure:"PORT"`
 	ReadBufferSize int `mapstructure:"READ_BUFFER_SIZE"`
 	WriteBufferSize int `mapstructure:"WRITE_BUFFER_SIZE"`
+	MsgQueueHost string `mapstructure:"MSG_QUEUE_HOST"`
+	MsgQueuePort string `mapstructure:"MSG_QUEUE_PORT"`
 }
 
 func New() *Settings {
