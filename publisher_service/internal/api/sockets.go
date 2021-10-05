@@ -30,7 +30,7 @@ func (a App) HandleSocketClient() http.HandlerFunc {
 
 		// The event loop
 		for {
-			_, message, err := conn.ReadMessage()
+			msgType, message, err := conn.ReadMessage()
 			if err != nil {
 				log.Println("Error during message reading:", err)
 				break
@@ -39,6 +39,9 @@ func (a App) HandleSocketClient() http.HandlerFunc {
 
 			if err = a.publishService.PublishNewEvent(message); err != nil {
 				log.Println("Error publishing new message:", err)
+				if err = conn.WriteMessage(msgType, []byte(err.Error())); err != nil {
+					log.Println("Error warning client about publishing error:", err)
+				}
 			}
 
 		}

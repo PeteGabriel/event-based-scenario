@@ -44,7 +44,7 @@ func (m *Messenger) PublishMessage(msg []byte) error{
 	}
 
 	if err := m.c.Publish(m.s.MsgQueueExchangeName, m.s.MsgQueueRoutingKey, false, false, evt); err != nil {
-		return errors.Wrap(err, "IMessenger:could not publish event.")
+		return errors.Wrap(err, "IMessenger:error publishing to queue '" + m.s.MsgQueueName + "'")
 	}
 
 	return nil

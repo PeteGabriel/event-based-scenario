@@ -27,7 +27,7 @@ func New(s *config.Settings)  IPublishService{
 
 func (p *PublishService) PublishNewEvent(message []byte) error{
 	if err := p.msn.PublishMessage(message); err != nil {
-		return errors.Wrap(err, "IMessenger:could not publish event.")
+		return errors.Wrap(err, "IPublisher:could not publish event")
 	}
 	return nil
 }
