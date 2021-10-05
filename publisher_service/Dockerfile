@@ -1,9 +1,7 @@
-FROM golang:1.17.1 as builder
+FROM golang as builder
 
 ENV GO111MODULE=on
 
-RUN mkdir /app
-ADD . /app/
 WORKDIR /app
 
 COPY go.mod .
@@ -14,7 +12,7 @@ COPY . .
 
 #CMD go test -v ./...
 
-EXPOSE 8080
+EXPOSE 8200
 
 RUN go build -o bin/main main.go
 CMD ./bin/main

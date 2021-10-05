@@ -8,18 +8,27 @@ import (
 //Settings represents the configuration that we can provide
 //from the outside in order to run the application in different ways.
 type Settings struct {
-	Host string `mapstructure:"HOST"`
-	Port string `mapstructure:"PORT"`
-	ReadBufferSize int `mapstructure:"READ_BUFFER_SIZE"`
-	WriteBufferSize int `mapstructure:"WRITE_BUFFER_SIZE"`
-	MsgQueueHost string `mapstructure:"MSG_QUEUE_HOST"`
-	MsgQueuePort string `mapstructure:"MSG_QUEUE_PORT"`
+	Host                string `mapstructure:"HOST"`
+	Port                string `mapstructure:"PORT"`
+	ReadBufferSize      int    `mapstructure:"READ_BUFFER_SIZE"`
+	WriteBufferSize     int    `mapstructure:"WRITE_BUFFER_SIZE"`
+	MsgQueueHost        string `mapstructure:"MSG_QUEUE_HOST"`
+	MsgQueuePort        string `mapstructure:"MSG_QUEUE_PORT"`
+	MsgQueueUser        string `mapstructure:"MSG_QUEUE_USERNAME"`
+	MsgQueuePassword    string `mapstructure:"MSG_QUEUE_PASSWORD"`
+	MsgQueueCheckOrigin bool   `mapstructure:"MSG_QUEUE_CHECK_ORIGIN"`
+	MsgQueueName        string `mapstructure:"MSG_QUEUE_NAME"`
+	MsgQueueRoutingKey  string `mapstructure:"MSG_QUEUE_ROUTE_KEY"`
+	MsgQueueExchangeName  string `mapstructure:"MSG_QUEUE_EXCHANGE_NAME"`
+	MsgQueueExchangeKind  string `mapstructure:"MSG_QUEUE_EXCHANGE_KIND"`
 }
 
-func New() *Settings {
+func New(envPath string) *Settings {
 	var cfg Settings
-	viper.SetConfigFile(".env")
+
+	viper.SetConfigFile(envPath)
 	viper.SetConfigType("env")
+
 	viper.AutomaticEnv()
 
 	err := viper.ReadInConfig()

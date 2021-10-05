@@ -5,15 +5,18 @@ import (
 	"log"
 	"net/http"
 	"petegabriel/publisher/pkg/config"
+	"petegabriel/publisher/pkg/services"
 )
 
 type App struct {
 	settings *config.Settings
+	publishService services.IPublishService
 }
 
 func New(set *config.Settings) *App{
 	return &App{
 		settings: set,
+		publishService: services.New(set),
 	}
 }
 

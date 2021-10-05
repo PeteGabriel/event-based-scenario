@@ -4,7 +4,6 @@ import (
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
-	"petegabriel/publisher/pkg/data/publisher"
 )
 
 
@@ -38,16 +37,10 @@ func (a App) HandleSocketClient() http.HandlerFunc {
 			}
 			log.Printf("Received: %s", message)
 
-
-			//TODO not like this
-			p, err := publisher.New(a.settings)
-			if err != nil {
-				log.Println(err)
+			if err = a.publishService.PublishNewEvent(message); err != nil {
+				log.Println("Error publishing new message:", err)
 			}
 
-			if err = p.Publish("Once upon a time in the west"); err != nil {
-				log.Println(err)
-			}
 		}
 	}
 }
