@@ -5,8 +5,8 @@ WORKDIR /app
 
 COPY go.* .
 
-#RUN go mod download
+RUN go mod download
 
 COPY . .
 
-CMD go test -v ./...
+CMD make run
