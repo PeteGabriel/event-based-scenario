@@ -10,14 +10,17 @@ import (
 type Settings struct {
 	Host                string `mapstructure:"HOST"`
 	Port                string `mapstructure:"PORT"`
+
 	ReadBufferSize      int    `mapstructure:"READ_BUFFER_SIZE"`
 	WriteBufferSize     int    `mapstructure:"WRITE_BUFFER_SIZE"`
+
 	MsgQueueCheckOrigin bool   `mapstructure:"MSG_QUEUE_CHECK_ORIGIN"`
 	MsgQueueName        string `mapstructure:"MSG_QUEUE_NAME"`
 	MsgQueueRoutingKey  string `mapstructure:"MSG_QUEUE_ROUTE_KEY"`
 	MsgQueueExchangeName  string `mapstructure:"MSG_QUEUE_EXCHANGE_NAME"`
 	MsgQueueExchangeKind  string `mapstructure:"MSG_QUEUE_EXCHANGE_KIND"`
 	MsgQueueConnString string `mapstructure:"MSG_QUEUE_CONN_STRING"`
+	MsgQueueConsumerName string `mapstructure:"MSG_QUEUE_CONSUMER_NAME"`
 }
 
 func New(envPath string) *Settings {

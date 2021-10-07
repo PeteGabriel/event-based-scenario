@@ -6,8 +6,6 @@ import (
 	"petegabriel/consumer_svc_2/pkg/config"
 )
 
-const consumerName = "event_consumer"
-
 type IEventConsumer interface {
 	GetEventChannel() (<-chan amqp.Delivery, error)
 	StopConsumeEvent() error
@@ -31,7 +29,7 @@ func New(s *config.Settings) (IEventConsumer, error) {
 
 func (ec *EventConsumer) GetEventChannel() (<-chan amqp.Delivery, error)  {
 	// We consume data in the queue named test using the channel we created in go.
-	msgs, err := ec.c.Consume(ec.s.MsgQueueName, consumerName, false, false, false, false, nil)
+	msgs, err := ec.c.Consume(ec.s.MsgQueueName, ec.s.MsgQueueConsumerName, false, false, false, false, nil)
 
 	if err != nil {
 		return nil, errors.Wrap(err, "IEventConsumer:could not consume events from queue")
@@ -42,7 +40,7 @@ func (ec *EventConsumer) GetEventChannel() (<-chan amqp.Delivery, error)  {
 
 func (ec *EventConsumer) StopConsumeEvent() error {
 	//cancel consumer and gracefully end goroutine
-	if err := ec.c.Cancel(consumerName, false); err != nil {
+	if err := ec.c.Cancel(ec.s.MsgQueueConsumerName, false); err != nil {
 		return errors.Wrap(err, "IEventConsumer:could not stop consumer channel")
 	}
 	return nil

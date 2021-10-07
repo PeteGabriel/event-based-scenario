@@ -6,14 +6,15 @@ import (
 	"net/http"
 )
 
-
-//HandleSocketClient returns a function to handle new connections via websocket.
-func (a App) HandleSocketClient() http.HandlerFunc {
+//HandleNewClient returns a function to handle new connections via websocket.
+func (a App) HandleNewClient() http.HandlerFunc {
 
 	var upgrader = websocket.Upgrader{
-		CheckOrigin: func(r *http.Request) bool { //allow for localhost testing
-			return true
+		//allow for localhost testing
+		CheckOrigin: func(r *http.Request) bool {
+			return a.settings.MsgQueueCheckOrigin
 		},
+		//limit the maximum length of the message.
 		ReadBufferSize: a.settings.ReadBufferSize,
 		WriteBufferSize: a.settings.WriteBufferSize,
 	}
@@ -27,7 +28,6 @@ func (a App) HandleSocketClient() http.HandlerFunc {
 
 		//client connected. Register for broadcast later on.
 		a.broadcasterSvc.RegisterNewClient(conn)
-
 	}
 }
 

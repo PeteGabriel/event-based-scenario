@@ -6,8 +6,9 @@ import (
 	"petegabriel/consumer_svc_2/pkg/domain"
 )
 
+//IConsumerService represents the contract this service respect.
 type IConsumerService interface {
-	ConsumeEvents(chan domain.Message)
+	ConsumeEvents(chan domain.IMessage) error
 }
 
 type ConsumerService struct {
@@ -25,9 +26,12 @@ func NewConsumerService(s *config.Settings) (IConsumerService, error){
 	}, nil
 }
 
-func (cs *ConsumerService) ConsumeEvents(events chan domain.Message) {
+//ConsumeEvents requests events to be consumed and sent to the
+//events channel parameter.
+//It returns an error if it cannot start the consuming routine.
+func (cs *ConsumerService) ConsumeEvents(events chan domain.IMessage) error {
 	if err := cs.consumer.Consume(events); err != nil {
-		//todo log message
-		return
+		return errors.Wrap(err, "IConsumerService:could not start the consuming routine")
 	}
+	return nil
 }
