@@ -38,5 +38,5 @@ func (b *Broadcaster) EmitBroadcast(msg []byte) {
 			counter = counter + 1
 		}
 	}
-	log.Printf("message sent to %d clients\n", counter )
+	log.Printf("message sent to %d client(s)\n", counter )
 }

@@ -45,8 +45,6 @@ func (c *Consumer) Consume(output chan <- IMessage) error {
 
 func handleChannelOfEvents(events <-chan amqp.Delivery, output chan <- IMessage) {
 	for e := range events {
-		log.Printf("event received with content %s\n", string(e.Body))
-
 		//expect json content type
 		if e.ContentType != "application/json" {
 			log.Printf("event has invalid content type: %s\n", e.ContentType)
@@ -65,6 +63,9 @@ func handleChannelOfEvents(events <-chan amqp.Delivery, output chan <- IMessage)
 			log.Printf("consumed event of invalid type: %s\n", evt.EventType)
 			continue
 		}
+
+		log.Printf("event received with content %s\n", string(e.Body))
+
 		//communicate new event
 		output <- &Message{
 			ContentType: e.ContentType,

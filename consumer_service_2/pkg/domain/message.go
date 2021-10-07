@@ -12,9 +12,7 @@ type Event struct {
 
 const eventName = "TECH_TASK_NAME"
 
-func (e *Event) IsEventTypeOk() bool {
-	return e.EventType == eventName
-}
+func (e *Event) IsEventTypeOk() bool { return e.EventType == eventName }
 
 type IMessage interface {
 	GetContentType() string
@@ -30,19 +28,9 @@ type Message struct {
 	Event string `json:"data"`
 }
 
-func (m *Message) GetContentType() string {
-	return m.ContentType
-}
-
-func (m *Message) GetData() string {
-	return m.Event
-}
-
-func (m *Message) GetTimestamp() string {
-	return m.Timestamp
-}
-
-
+func (m *Message) GetContentType() string { return m.ContentType }
+func (m *Message) GetData() string { return m.Event }
+func (m *Message) GetTimestamp() string { return m.Timestamp }
 
 func (m Message) String() string{
 	j, err := json.Marshal(m)
