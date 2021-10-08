@@ -1,10 +1,12 @@
 package services
 
 import (
+	"encoding/json"
 	"github.com/pkg/errors"
 	"log"
 	"petegabriel/publisher/pkg/config"
 	"petegabriel/publisher/pkg/data/events"
+	"petegabriel/publisher/pkg/domain"
 )
 
 type IPublishService interface {
@@ -26,8 +28,16 @@ func New(s *config.Settings)  IPublishService{
 }
 
 func (p *PublishService) PublishNewEvent(message []byte) error{
-	if err := p.msn.PublishMessage(message); err != nil {
+	event := domain.New()
+	event.Data = string(message)
+	//serialize
+	evtJSON, err := json.Marshal(event)
+	if err != nil {
+		return errors.Wrap(err, "IPublisher:could not serialize event")
+	}
+	if err := p.msn.PublishMessage(evtJSON); err != nil {
 		return errors.Wrap(err, "IPublisher:could not publish event")
 	}
+	log.Printf("event published: %s\n", evtJSON)
 	return nil
 }

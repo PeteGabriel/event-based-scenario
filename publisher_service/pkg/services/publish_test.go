@@ -14,7 +14,7 @@ func TestPublishService_PublishNewEvent(t *testing.T) {
 	}
 
 	p := PublishService{msn: msnMock}
-	if err := p.PublishNewEvent("new message to be published"); err != nil {
+	if err := p.PublishNewEvent([]byte("new message to be published")); err != nil {
 		t.Errorf("error publishing from service: %s", err)
 		t.FailNow()
 	}
@@ -27,7 +27,7 @@ func TestPublishService_PublishNewEvent_WithError(t *testing.T) {
 	}
 
 	p := PublishService{msn: msnMock}
-	if err := p.PublishNewEvent("new message to be published"); err == nil {
+	if err := p.PublishNewEvent([]byte("new message to be published")); err == nil {
 		t.Error("error expected to be found")
 		t.FailNow()
 	}

@@ -39,7 +39,7 @@ func (m *Messenger) PublishMessage(msg []byte) error{
 	evt := amqp.Publishing{
 		DeliveryMode: amqp.Persistent,
 		Timestamp:    time.Now(),
-		ContentType:  "text/plain",
+		ContentType:  "application/json",
 		Body:         msg,
 	}
 
