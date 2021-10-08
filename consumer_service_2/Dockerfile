@@ -9,4 +9,6 @@ RUN go mod download
 
 COPY . .
 
+EXPOSE 8208
+
 CMD make run
